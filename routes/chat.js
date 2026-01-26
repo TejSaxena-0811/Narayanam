@@ -1,0 +1,121 @@
+import express from "express";
+import Thread from "../models/Thread.js";
+import getOpenAIAPIResponse from "../utils/openai.js";
+
+
+const router = express.Router();
+
+
+// testing
+router.post("/test" , async function(req , res){
+    try{
+        const thread = new Thread({
+            threadId: "123xyz",
+            title: "testing new threadd"
+        })
+
+        const response = await thread.save();
+        res.send(response);
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({error: "Failed to save in DB."});
+    }
+})
+
+
+
+
+// display all threads
+router.get("/thread" , async function(req , res){
+    try{
+        const threads = await Thread.find({}).sort({updatedAt: -1}); // -1 means descending order. threads printed according to "update time". most recent data on top.
+        res.json(threads);
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({error: "Failed to fetch Chats."});
+    }
+})
+
+
+
+
+// display a particular thread
+router.get("/thread/:threadId" , async function(req , res){
+    try{
+        const {threadId} = req.params;
+        const thread = await Thread.findOne({threadId});
+        
+        if(!thread){
+            res.status(404).json({error: "Chat not found!"});
+        }
+        res.json(thread.messages);
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({error: "Failed to fetch chat."});
+    }
+})
+
+
+
+
+// delete a thread
+router.delete("/thread/:threadId" , async function(req , res){
+    try{
+        const {threadId} = req.params;
+        const deletedThread = await Thread.findOneAndDelete({threadId});
+
+        if(!deletedThread){
+            res.status(404).json({error: "Chat not found."});
+        }
+
+        res.status(200).json({success: "Thread deleted successfully."});
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({error: "Failed to delete chat."});
+    }
+})
+
+
+
+
+// saving user's message and model's reply to DB, and sending the reply to frontend.
+router.post("/chat" , async function(req , res){
+    try{
+        const {threadId , message} = req.body;
+        if(!threadId || !message){
+            res.status(404).json({error: "Missing required fields."});
+        }
+
+        const thread = await Thread.findOne({threadId});
+        if(!thread){
+            // create a new thread in DB
+            thread = new Thread({
+                threadId,
+                title: message,
+                messages: [{role: "user" , content: message}]
+            })
+        }
+        else{
+            thread.messages.push({role: "user" , content: message});
+        }
+
+        const assistantReply = await getOpenAIAPIResponse(message);
+
+        thread.messages.push({role: "assistant" , content: assistantReply}); // storing model's response in the DB
+        thread.updatedAt = new Date();
+        await thread.save();
+
+        res.json({reply: assistantReply})
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({error: "Something went wrong :("});
+    }
+})
+
+
+export default router;
