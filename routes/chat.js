@@ -29,7 +29,7 @@ router.post("/test" , async function(req , res){
 // display all threads
 router.get("/thread" , async function(req , res){
     try{
-        const threads = await Thread.find({}).sort({updatedAt: -1}); // -1 means descending order. threads printed according to "update time". most recent data on top.
+        const threads = await Thread.find({}).sort({updatedAt: -1}); // -1 means descending order. threads will be printed according to "update time". most recent data on top.
         res.json(threads);
     }
     catch(err){
@@ -95,13 +95,14 @@ router.post("/chat" , async function(req , res){
             // create a new thread in DB
             thread = new Thread({
                 threadId,
-                title: message,
-                messages: [{role: "user" , content: message}]
+                title: message, // title of the chat will be same as the message entered by the user.
+                messages: [{role: "user" , content: message}] // array of objects
             })
         }
         else{
             thread.messages.push({role: "user" , content: message});
         }
+
 
         const assistantReply = await getOpenAIAPIResponse(message);
 

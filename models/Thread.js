@@ -18,7 +18,7 @@ const MessageSchema = new mongoose.Schema({
 })
 
 
-// messageSchema's "only" role is to be part of a thread, so im writing them in the same file.
+// MessageSchema's "only" role is to be part of a thread, so im writing them in the same file.
 
 
 const ThreadSchema = new mongoose.Schema({
@@ -31,7 +31,7 @@ const ThreadSchema = new mongoose.Schema({
         type: String,
         default : "New Chat" // new convo
     },
-    messages: [MessageSchema], // this means everything from the MessageSchema will also be in this messages column of ThreadSchema.
+    messages: [MessageSchema], // this means everything from the MessageSchema will also be in this messages column of ThreadSchema, along with the createdAt and updatedAt that are being added in the next few lines.
     createdAt: {
         type: Date,
         default: Date.now
