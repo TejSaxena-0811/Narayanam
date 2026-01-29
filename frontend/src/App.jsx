@@ -21,7 +21,7 @@ function App() {
     reply, setReply,
     currThreadId, setCurrThreadId,
     prevChats , setPrevChats,
-    newChat , setNewChat,
+    newChat , setNewChat, 
     allThreads , setAllThreads
   };
 

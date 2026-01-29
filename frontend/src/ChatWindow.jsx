@@ -2,7 +2,7 @@ import "./ChatWindow.css";
 import Chat from "./Chat.jsx";
 import { MyContext } from "./MyContext.jsx";
 import { useState , useContext , useEffect } from "react";
-import {PacmanLoader} from "react-spinners";
+import {PacmanLoader , ClimbingBoxLoader , RingLoader} from "react-spinners";
 
 
 function ChatWindow(){
@@ -87,7 +87,9 @@ function ChatWindow(){
 
 
             <div className="loader">
-                <PacmanLoader color="white" loading={loading} />
+                {/* <PacmanLoader color="white" loading={loading} /> */}
+                {/* <ClimbingBoxLoader color="white" loading={loading} /> */}
+                <RingLoader color="white" loading={loading} />
             </div>
 
 
@@ -99,7 +101,7 @@ function ChatWindow(){
                     </div>
                 </div>
                 <p className="info">
-                    This project is made with love and effort :)
+                    This project is built with love and effort :)
                 </p>
             </div>
         </div>

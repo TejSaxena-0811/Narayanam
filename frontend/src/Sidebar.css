@@ -11,7 +11,7 @@
 .logo{
     height: 25px;
     width: 25px;
-    background-color: white;
+    background-color: #171717;
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
@@ -49,6 +49,7 @@ button:hover{
     cursor: pointer;
     padding: 2px 5px;
     margin-bottom: 0.3rem;
+    padding-left: 0;
     font-size: 14px;
     border: 10px solid transparent;
     position: relative;

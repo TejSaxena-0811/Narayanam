@@ -10,8 +10,16 @@ import "highlight.js/styles/github-dark.css";
 function Chat(){
     const {newChat , prevChats , reply} = useContext(MyContext);
     const [latestReply , setLatestReply] = useState(null);
+    const [headingText, setHeadingText] = useState("");
+    
+    let headings = ["Ready when you are." , "Start anywhere. I'm listening." , "Got a thought? Let’s unpack it." , "Ask me anything." , "Type it. I'll code it."];
 
     useEffect(() => {
+        if(!headingText){
+            const randomIndex = Math.floor(Math.random() * headings.length);
+            setHeadingText(headings[randomIndex]);
+        }
+
         if(reply === null){
             setLatestReply(null); // load previous chat
             return;
@@ -35,11 +43,13 @@ function Chat(){
         return () => clearInterval(interval);
 
 
-    } , [prevChats , reply])
+    } , [prevChats , reply , headingText])
+
+
 
     return(
         <div>
-            {newChat ? <h1>Ask me anything!</h1> : null}
+            {newChat ? <h1>{headingText}</h1> : null}
             <div className="chats">
                 {
                     prevChats?.slice(0,-1).map((chat , idx) =>
