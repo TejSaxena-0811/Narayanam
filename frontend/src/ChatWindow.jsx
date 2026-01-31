@@ -56,7 +56,7 @@ function ChatWindow(){
             })
         }
 
-        setPrompt("");
+        // setPrompt("");
     } , [reply , prompt]);
 
 
