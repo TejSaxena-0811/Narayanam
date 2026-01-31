@@ -7,7 +7,22 @@ import chatRoutes from "./routes/chat.js";
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
+
+// for development
+// app.use(cors());
+
+
+// for production
+import cors from "cors";
+
+app.use(cors({
+  origin: "https://narayanam.vercel.app",
+  methods: ["GET", "POST", "DELETE"],
+  credentials: true
+}));
+
+
 
 
 // for localhost:
