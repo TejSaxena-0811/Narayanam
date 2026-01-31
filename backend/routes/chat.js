@@ -30,11 +30,11 @@ router.post("/test" , async function(req , res){
 router.get("/thread" , async function(req , res){
     try{
         const threads = await Thread.find({}).sort({updatedAt: -1}); // -1 means descending order. threads will be printed according to "update time". most recent data on top.
-        res.json(threads);
+        return res.json(threads);
     }
     catch(err){
         console.log(err);
-        res.status(500).json({error: "Failed to fetch Chats."});
+        return res.status(500).json([]);
     }
 })
 

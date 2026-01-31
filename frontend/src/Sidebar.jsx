@@ -12,6 +12,13 @@ function Sidebar(){
         try{
             const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/thread`);
             const res = await response.json();
+
+            if (!Array.isArray(res)) {
+                console.error("Expected array, got:", res);
+                setAllThreads([]);
+                return;
+            }
+            
             const filteredData = res.map((thread) => {
                 return {
                     threadId: thread.threadId , title: thread.title
