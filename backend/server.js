@@ -10,24 +10,57 @@ app.use(express.json());
 app.use(cors());
 
 
-const connectDB = async function(){
-    try{
-        await mongoose.connect(process.env.MONGODB_URL);
-        console.log("connected with database :)");
-    }
-    catch(err){
-        console.log(err);
-    }
-}
+// for localhost:
+// const connectDB = async function(){
+//     try{
+//         await mongoose.connect(process.env.MONGODB_URL);
+//         console.log("connected with database :)");
+//     }
+//     catch(err){
+//         console.log(err);
+//     }
+// }
+
+
+
+
+// for deployment:
+let isConnected = false;
+const connectDB = async () => {
+  if (isConnected) return;
+
+  try {
+    await mongoose.connect(process.env.MONGODB_URL);
+    isConnected = true;
+    console.log("connected with database :)");
+  } catch (err) {
+    console.error("DB connection failed:", err);
+  }
+};
+
+// connect DB on every request.
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
 
 
 
 app.use("/api" , chatRoutes);
 
-app.listen(3000 , () => {
-    console.log("server running on port 3000");
-    connectDB();
-})
+
+
+if(process.env.NODE_ENV !== "production"){
+    app.listen(3000 , () => {
+        console.log("server running on port 3000");
+        connectDB();
+    })
+}
+
+
+export default app;
+
 
 
 // app.post("/test" , async function(req , res){ // a post request will be used because when user enters their prompt on the frontend, which when reaches the backend, will generate/create some response.
