@@ -19,6 +19,12 @@ function ChatWindow(){
 
         setLoading(true);
         setNewChat(false);
+
+        setPrevChats(prev => [
+            ...prev,
+            { role: "user", content: prompt }
+        ]);
+
         const options = {
             method: "POST",
             headers: {
@@ -36,28 +42,44 @@ function ChatWindow(){
             const res = await response.json();
             // console.log(response);
             // console.log(res);
+
+            if (!res.reply) {
+                throw new Error("No reply from backend");
+            }
             setReply(res.reply);
         }
         catch(err){
             console.log(err);
         }
 
+        setPrompt("");
         setLoading(false);
     }
 
     // appending new chats to prevChats
-    useEffect(() => {
-        if(prompt && reply){
-            setPrevChats(prevChats => {
-                return [...prevChats ,
-                    {role: "user" , content: prompt},
-                    {role: "assistant" , content: reply}
-                ]
-            })
-        }
+    // useEffect(() => {
+    //     if(prompt && reply){
+    //         setPrevChats(prevChats => {
+    //             return [...prevChats ,
+    //                 {role: "user" , content: prompt},
+    //                 {role: "assistant" , content: reply}
+    //             ]
+    //         })
+    //     }
 
-        setPrompt("");
-    } , [reply])
+    //     setPrompt("");
+    // } , [reply])
+
+
+    useEffect(() => {
+        if (!reply) return;
+
+        setPrevChats(prev => [
+            ...prev,
+            { role: "assistant", content: reply }
+        ]);
+    }, [reply]);
+
 
 
     function handleProfileClick(){
