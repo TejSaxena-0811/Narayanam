@@ -14,8 +14,6 @@ app.use(express.json());
 
 
 // for production
-import cors from "cors";
-
 app.use(cors({
   origin: "https://narayanam.vercel.app",
   methods: ["GET", "POST", "DELETE"],
@@ -66,12 +64,12 @@ app.use("/api" , chatRoutes);
 
 
 
-if(process.env.NODE_ENV !== "production"){
-    app.listen(3000 , () => {
-        console.log("server running on port 3000");
-        connectDB();
-    })
-}
+// if(process.env.NODE_ENV !== "production"){
+//     app.listen(3000 , () => {
+//         console.log("server running on port 3000");
+//         connectDB();
+//     })
+// }
 
 
 app.get("/", (req, res) => {
