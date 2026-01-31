@@ -7,23 +7,35 @@ import chatRoutes from "./routes/chat.js";
 const app = express();
 
 app.use(express.json());
-
-
-// for development
-// app.use(cors());
-
-
-// for production
-app.use(cors({
-  origin: "https://narayanam.vercel.app",
-  methods: ["GET", "POST", "DELETE"],
-  credentials: true
-}));
+app.use(cors());
 
 
 
 
-// for localhost:
+mongoose.connect(process.env.MONGODB_URL)
+  .then(() => console.log("MongoDB connected successfully :)"))
+  .catch(err => console.log(err));
+
+
+
+
+app.use("/api" , chatRoutes);
+
+
+
+app.get("/", (req, res) => {
+  res.send("Narayanam backend is running.");
+});
+
+
+
+
+export default app;
+
+
+
+
+
 // const connectDB = async function(){
 //     try{
 //         await mongoose.connect(process.env.MONGODB_URL);
@@ -35,47 +47,10 @@ app.use(cors({
 // }
 
 
-
-
-// for deployment:
-let isConnected = false;
-const connectDB = async () => {
-  if (isConnected) return;
-
-  try {
-    await mongoose.connect(process.env.MONGODB_URL , {bufferCommands: false});
-    isConnected = true;
-    console.log("connected with database :)");
-  } catch (err) {
-    console.error("DB connection failed:", err);
-  }
-};
-
-await connectDB();
-
-
-
-
-app.use("/api" , chatRoutes);
-
-
-
-// if(process.env.NODE_ENV !== "production"){
-//     app.listen(3000 , () => {
-//         console.log("server running on port 3000");
-//         connectDB();
-//     })
-// }
-
-
-app.get("/", (req, res) => {
-  res.send("Narayanam backend is live");
-});
-
-
-
-export default app;
-
+// app.listen(3000 , () => {
+//     console.log("server running on port 3000");
+//     connectDB();
+// })
 
 
 // app.post("/test" , async function(req , res){ // a post request will be used because when user enters their prompt on the frontend, which when reaches the backend, will generate/create some response.

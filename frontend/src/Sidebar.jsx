@@ -10,8 +10,7 @@ function Sidebar(){
 
     async function getAllThreads(){
         try{
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/thread`);
-
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/thread`);
             const res = await response.json();
             const filteredData = res.map((thread) => {
                 return {
@@ -43,8 +42,7 @@ function Sidebar(){
         setCurrThreadId(newThreadId);
 
         try{
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/thread/${newThreadId}`);
-
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/thread/${newThreadId}`);
             const res = await response.json();
             // console.log(res);
             setPrevChats(res);
@@ -58,8 +56,7 @@ function Sidebar(){
 
     async function deleteThread(threadId){
         try{
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/thread/${threadId}`, { method: "DELETE" });
-
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/thread/${threadId}` , {method: "DELETE"});
             const res = await response.json();
             // console.log(res);
 
@@ -93,7 +90,7 @@ function Sidebar(){
                     allThreads?.map((thread , idx) => {
                         return <li key={idx} onClick={() => changeThread(thread.threadId)} className={thread.threadId === currThreadId ? "selectedThread" : ""}>
                             {thread.title}
-                            <i class="fa-solid fa-trash" 
+                            <i className="fa-solid fa-trash" 
                                 onClick={(event) => {
                                     event.stopPropagation(); // to avoid event bubbling. so that when the delete button (child) is clicked, it doesn't interfere with the parent, that is the list item.
                                     deleteThread(thread.threadId);

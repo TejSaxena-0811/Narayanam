@@ -19,12 +19,6 @@ function ChatWindow(){
 
         setLoading(true);
         setNewChat(false);
-
-        setPrevChats(prev => [
-            ...prev,
-            { role: "user", content: prompt }
-        ]);
-
         const options = {
             method: "POST",
             headers: {
@@ -37,49 +31,33 @@ function ChatWindow(){
         }
 
         try{
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/chat`, options);
-
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chat` , options);
             const res = await response.json();
             // console.log(response);
             // console.log(res);
-
-            if (!res.reply) {
-                throw new Error("No reply from backend");
-            }
             setReply(res.reply);
+            setLoading(false);
         }
         catch(err){
             console.log(err);
         }
 
-        setPrompt("");
-        setLoading(false);
+        // setLoading(false);
     }
 
     // appending new chats to prevChats
-    // useEffect(() => {
-    //     if(prompt && reply){
-    //         setPrevChats(prevChats => {
-    //             return [...prevChats ,
-    //                 {role: "user" , content: prompt},
-    //                 {role: "assistant" , content: reply}
-    //             ]
-    //         })
-    //     }
-
-    //     setPrompt("");
-    // } , [reply])
-
-
     useEffect(() => {
-        if (!reply) return;
+        if(prompt && reply){
+            setPrevChats(prevChats => {
+                return [...prevChats ,
+                    {role: "user" , content: prompt},
+                    {role: "assistant" , content: reply}
+                ]
+            })
+        }
 
-        setPrevChats(prev => [
-            ...prev,
-            { role: "assistant", content: reply }
-        ]);
-    }, [reply]);
-
+        setPrompt("");
+    } , [reply , prompt]);
 
 
     function handleProfileClick(){

@@ -26,30 +26,17 @@ router.post("/test" , async function(req , res){
 
 
 
-
 // display all threads
-
-// router.get("/thread" , async function(req , res){
-//     try{
-//         const threads = await Thread.find({}).sort({updatedAt: -1}); // -1 means descending order. threads will be printed according to "update time". most recent data on top.
-//         res.json(threads);
-//     }
-//     catch(err){
-//         console.log(err);
-//         res.status(500).json({error: "Failed to fetch Chats."});
-//     }
-// })
-
-
-router.get("/thread", async function (req, res) {
-  try {
-    const threads = await Thread.find({}).sort({ updatedAt: -1 }).lean();
-    res.status(200).json(threads || []);
-  } catch (err) {
-    console.error("GET /thread failed:", err);
-    res.status(200).json([]);
-  }
-});
+router.get("/thread" , async function(req , res){
+    try{
+        const threads = await Thread.find({}).sort({updatedAt: -1}); // -1 means descending order. threads will be printed according to "update time". most recent data on top.
+        res.json(threads);
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({error: "Failed to fetch Chats."});
+    }
+})
 
 
 
@@ -60,11 +47,10 @@ router.get("/thread/:threadId" , async function(req , res){
         const {threadId} = req.params;
         const thread = await Thread.findOne({threadId});
         
-        if (!thread) {
-            return res.status(200).json([]); // frontend expects array
+        if(!thread){
+            res.status(404).json({error: "Chat not found!"});
         }
-
-        res.status(200).json(thread.messages);
+        res.json(thread.messages);
     }
     catch(err){
         console.log(err);
@@ -101,7 +87,7 @@ router.post("/chat" , async function(req , res){
     try{
         const {threadId , message} = req.body;
         if(!threadId || !message){
-            return res.status(200).json({reply: ""});
+            res.status(404).json({error: "Missing required fields."});
         }
 
         let thread = await Thread.findOne({threadId});
@@ -124,11 +110,11 @@ router.post("/chat" , async function(req , res){
         thread.updatedAt = new Date();
         await thread.save();
 
-        res.status(200).json({ reply: assistantReply });
+        res.json({reply: assistantReply})
     }
     catch(err){
-        console.error("POST /chat failed:", err);
-        res.status(200).json({ reply: "" }); // always sending the reply field. (found through debugging)
+        console.log(err);
+        res.status(500).json({error: "Something went wrong :("});
     }
 })
 

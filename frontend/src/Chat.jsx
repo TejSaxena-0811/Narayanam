@@ -29,11 +29,7 @@ function Chat(){
             return;
         }
         
-        // const content = reply.split(" "); // individual words
-
-        if (typeof reply !== "string") return;
-        const content = reply.split(" ");
-
+        const content = reply.split(" "); // individual words
 
         let idx = 0;
         const interval = setInterval(() => {
