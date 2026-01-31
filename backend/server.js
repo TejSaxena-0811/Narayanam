@@ -43,7 +43,7 @@ const connectDB = async () => {
   if (isConnected) return;
 
   try {
-    await mongoose.connect(process.env.MONGODB_URL);
+    await mongoose.connect(process.env.MONGODB_URL , {bufferCommands: false});
     isConnected = true;
     console.log("connected with database :)");
   } catch (err) {
@@ -51,11 +51,7 @@ const connectDB = async () => {
   }
 };
 
-// connect DB on every request.
-app.use(async (req, res, next) => {
-  await connectDB();
-  next();
-});
+await connectDB();
 
 
 
