@@ -9,6 +9,7 @@ function ChatWindow(){
     const {prompt , setPrompt , reply , setReply , currThreadId , setPrevChats , setNewChat} = useContext(MyContext);
     const [loading , setLoading] = useState(false);
     const [isOpen , setIsOpen] = useState(false); // for dropdown;
+    const { showSidebar, setShowSidebar } = useContext(MyContext);
 
     function inputMsg(event){
         setPrompt(event.target.value);
@@ -67,7 +68,13 @@ function ChatWindow(){
     return(
         <div className="chatWindow">
             <div className="navbar">
-                <span>Narayanam AI</span>
+                <div className="leftNav">
+                    <div className="hamburger" onClick={() => setShowSidebar(!showSidebar)}>
+                        <i className={`fa-solid ${showSidebar ? "fa-xmark" : "fa-bars"}`}></i>
+                    </div>
+                    {/* <span>Narayanam AI</span> */}
+                </div>
+
                 <div className="userIconDiv" onClick={handleProfileClick}>
                     <span className="userIcon"><i className="fa-solid fa-user"></i></span>
                 </div>

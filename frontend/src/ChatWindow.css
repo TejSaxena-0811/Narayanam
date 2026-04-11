@@ -149,3 +149,32 @@ input:focus{
     height: 40px;
     margin-bottom: 50px;
 }
+
+
+
+.leftNav {
+    display: flex;
+    align-items: center;
+}
+
+
+
+.hamburger {
+    display: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+        position: fixed;     /* 🔥 important */
+        top: 15px;
+        left: 15px;
+        z-index: 2000;       /* 🔥 above sidebar */
+        background-color: #212121;
+        padding: 6px;
+        border-radius: 6px;
+    }
+}

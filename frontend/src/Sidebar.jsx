@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 function Sidebar(){
-    const {allThreads , setAllThreads , currThreadId , setCurrThreadId , setNewChat , setPrompt , setReply , setPrevChats} = useContext(MyContext);
+    const {allThreads , setAllThreads , currThreadId , setCurrThreadId , setNewChat , setPrompt , setReply , setPrevChats , showSidebar, setShowSidebar} = useContext(MyContext);
 
     async function getAllThreads(){
         try{
@@ -84,7 +84,10 @@ function Sidebar(){
     }
 
     return(
-        <section className="sidebar">
+        <section className={`sidebar ${showSidebar ? "open" : ""}`}>
+            {/* <div className="closeBtn" onClick={() => setShowSidebar(false)}>
+                <i className="fa-solid fa-xmark"></i>
+            </div> */}
             {/* new chat button */}
             <button onClick={createNewChat}>
                 <img src="/narayanam.ico" alt="logo" className="logo"/>
