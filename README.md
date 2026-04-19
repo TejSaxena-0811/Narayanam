@@ -6,7 +6,6 @@ Narayanam is a full-stack web application designed to provide a structured and u
 
 ## Features
 
-- User authentication (login and registration)
 - Create, read, update, and delete core data entities
 - Structured routing and modular backend design
 - Form validation and error handling
@@ -28,9 +27,6 @@ Narayanam is a full-stack web application designed to provide a structured and u
 
 ### Database
 - MongoDB with Mongoose
-
-### Authentication
-- Passport.js (Local Strategy)
 
 ### Libraries and Tools
 - Joi (data validation)
