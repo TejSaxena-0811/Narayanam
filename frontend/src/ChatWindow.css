@@ -169,10 +169,10 @@ input:focus{
 @media (max-width: 768px) {
     .hamburger {
         display: block;
-        position: fixed;     /* 🔥 important */
+        position: fixed;
         top: 15px;
         left: 15px;
-        z-index: 2000;       /* 🔥 above sidebar */
+        z-index: 2000;
         background-color: #212121;
         padding: 6px;
         border-radius: 6px;

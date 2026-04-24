@@ -70,7 +70,7 @@ function App() {
   const [newChat , setNewChat] = useState(true);
   const [allThreads , setAllThreads] = useState([]);
 
-  // ✅ NEW: sidebar toggle state
+  // sidebar toggle
   const [showSidebar, setShowSidebar] = useState(false);
 
   const providerValues = {
@@ -80,7 +80,7 @@ function App() {
     prevChats , setPrevChats,
     newChat , setNewChat, 
     allThreads , setAllThreads,
-    showSidebar, setShowSidebar   // ✅ pass it
+    showSidebar, setShowSidebar
   };
 
   return(
