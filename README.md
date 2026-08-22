@@ -34,6 +34,11 @@ Narayanam is a full-stack web application designed to provide a structured and u
 - Express-Session and Connect-Mongo (session storage)
 - Method-Override
 
+
+## Run Locally
+- cd frontend ---> npm run dev
+- cd backend ---> nodemon server.js
+
 ---
 
 ### Deployed Link
