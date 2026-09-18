@@ -2,6 +2,10 @@
 
 Narayanam is a full-stack web application designed to provide a structured and user-friendly platform for managing and interacting with content. It focuses on delivering a seamless user experience with secure authentication, dynamic data handling, and scalable architecture.
 
+# A chart explaining the complete flow:
+<img width="993" height="872" alt="image" src="https://github.com/user-attachments/assets/1db60b36-a870-448d-9cf2-d4229eea3bfe" />
+
+
 ---
 
 ## Features
