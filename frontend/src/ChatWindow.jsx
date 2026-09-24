@@ -109,7 +109,8 @@ function ChatWindow(){
                     </div>
                 </div>
                 <p className="info">
-                    This project is built with love and effort :)
+                    {/* This project is built with love and effort :) */}
+                    🤔 | Tej Saxena
                 </p>
             </div>
         </div>
